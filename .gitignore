@@ -133,7 +133,6 @@ dist
 
 # yarn v3
 .pnp.*
-<<<<<<< HEAD
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
@@ -156,15 +155,11 @@ vite.config.ts.timestamp-*
 .nx/cache
 .nx/workspace-data
 .nx/migrate-runs
-=======
 
 # React Router
 /.react-router/
 /build/
-.env.*
-!.env.example
 .shopify
 node_modules
 build
 .react-router
->>>>>>> d12d8a0 (Hydrogen storefront setup: pnpm, Oxygen prep, multi-domain roadmap and WBS)
