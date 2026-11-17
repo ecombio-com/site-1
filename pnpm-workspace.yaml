@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  workerd: true
+permissions:
+  '@shopify/hydrogen':
+    skills: true
