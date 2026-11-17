@@ -1,7 +1,7 @@
 # WBS: Multi-Domain Shopify / Hydrogen / Oxygen Storefront
 
 Legend: NOT STARTED ❌ | DONE ✅ | IN PROGRESS ⚠️
-Start: 2026-11-17 | Target go-live: 2026-12-18 | Updated: 2026-11-17
+Start: 2026-11-17 | Target go-live: 2026-12-18 | Updated: 2026-11-17 12:55
 Model: one Shopify store, one Hydrogen storefront on Oxygen, brand resolved from Host header.
 Domains: bicyclebio.com, scooterbio.com, skaterbio.com, ecombio.com (role TBD)
 
@@ -99,7 +99,7 @@ Domains: bicyclebio.com, scooterbio.com, skaterbio.com, ecombio.com (role TBD)
 | 5.4.2 | Create DNS records in Cloudflare (verify proxy setting) | 5.4.1 | ❌ |
 | 5.4.3 | Verify domain serves content, SSL active | 5.4.2 | ❌ |
 | 5.4.4 | www to apex redirect | 5.4.3 | ❌ |
-| 5.5 | GitHub Actions deploy workflow (single deploy job) | 5.1 | ❌ |
+| 5.5 | GitHub Actions deploy workflow (single deploy job) | 5.1 | ⚠️ |
 
 ## 6. Cutover and hardening (2026-12-14 to 2026-12-18)
 
@@ -111,6 +111,41 @@ Domains: bicyclebio.com, scooterbio.com, skaterbio.com, ecombio.com (role TBD)
 | 6.4 | Post-launch checks: checkout, accounts, analytics, sitemaps submitted | 6.3 | ❌ |
 | 6.5 | Rollback plan documented and rehearsed | 6.1 | ❌ |
 | 6.6 | Monitoring and error review for 48 hours | 6.4 | ❌ |
+
+## 7. Repository and CI (2026-11-17 to 2026-12-04)
+
+| ID | Task / sub-task | Depends on | Status |
+|---|---|---|---|
+| 7.1 | Repo ecombio-com/site connected and main pushed | none | ✅ |
+| 7.1.1 | Commit local setup (188 files, pnpm, Oxygen prep, docs) | none | ✅ |
+| 7.1.2 | Rebase onto remote main (picked up Shopify PR #5 workflow) | 7.1.1 | ✅ |
+| 7.1.3 | Fix conflict markers in .gitignore and README (commit f35620f) | 7.1.2 | ✅ |
+| 7.1.4 | Verify no secrets tracked; .env ignored, .env.example tracked | 7.1.3 | ✅ |
+| 7.2 | Review Shopify-generated workflow .github\workflows\oxygen-deployment-1000185750.yml | 7.1 | ❌ |
+| 7.2.1 | Check Actions tab: first run on main expected to fail until server.ts exists (3.1) | 7.1 | ❌ |
+| 7.2.2 | Confirm workflow uses pnpm and the right token secret | 7.2 | ❌ |
+| 7.3 | Delete stale remote branches shopify-setup-oxygen-workflow-bks4 and shopify-remove-oxygen-workflow-l9lq | 7.2 | ❌ |
+| 7.4 | Decide whether to track duplicated .agents and .claude skills folders | none | ❌ |
+| 7.5 | Add .gitattributes to normalize line endings (CRLF warnings) | none | ❌ |
+| 7.6 | Branch protection and PR flow on main | 7.2 | ❌ |
+
+## Progress snapshot (2026-11-17 12:55)
+
+| Measure | Count |
+|---|---|
+| Total tasks and sub-tasks | 78 |
+| DONE ✅ | 10 (13%) |
+| IN PROGRESS ⚠️ | 5 |
+| NOT STARTED ❌ | 63 |
+
+| Milestone | Status | Note |
+|---|---|---|
+| M1 Decisions locked | ⚠️ | Single store confirmed (ecombio-store). Spike, plan tier, checkout, accounts, brand mapping, ecombio.com still open |
+| M2 Oxygen-ready app | ⚠️ | Build passes. gql check needs link and env pull. server.ts not started |
+| M3 Brand layer complete | ❌ | Blocked on M1 decisions |
+| M4 Preview verified | ❌ | |
+| M5 Domains connected | ❌ | |
+| M6 Production live | ❌ | |
 
 ## Critical path
 1.2 domain-serving spike -> 1.3 checkout decision -> 4.1 brand config -> 4.3 scoped data -> 5.1 preview -> 5.4 domains -> 6.2 production.
