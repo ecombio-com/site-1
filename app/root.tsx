@@ -19,6 +19,7 @@ import {
 import {i18n} from "./lib/i18n";
 import {routeTemplates} from "./lib/route-templates";
 import {storefrontContext} from "./lib/storefront-context";
+import {cacheContext, envContext, waitUntilContext} from "./lib/server-context";
 import {cartHandlers} from "./lib/cart-handlers";
 import {CartProvider} from "./lib/cart";
 
@@ -26,13 +27,21 @@ const predictiveSearchHandlers = createPredictiveSearchServerHandlers();
 
 export const middleware: Route.MiddlewareFunction[] = [
   async ({context, request}, next) => {
+    const env = context.get(envContext);
+    const cache = context.get(cacheContext);
+    const waitUntil = context.get(waitUntilContext);
+    if (!env.PUBLIC_STORE_DOMAIN) {
+      throw new Error("PUBLIC_STORE_DOMAIN is not set");
+    }
     const requestContext = createShopifyRequestContext({request, i18n});
     const storefrontClient = createStorefrontClient({
       type: "public",
       requestContext,
       config: {
-        storeDomain: process.env.PUBLIC_STORE_DOMAIN || "mock.shop",
-        publicStorefrontToken: process.env.PUBLIC_STOREFRONT_API_TOKEN,
+        storeDomain: env.PUBLIC_STORE_DOMAIN,
+        publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+        cache,
+        waitUntil,
       },
     });
 
