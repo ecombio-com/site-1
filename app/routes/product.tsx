@@ -7,7 +7,7 @@ import {ProductProvider, useProductForm} from "../lib/product";
 const PRODUCT_QUERY = gql(`
   query Product($handle: String!, $selectedOptions: [SelectedOptionInput!]!, $country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
+    product(handle: $handle) { variants(first: 100) { nodes { id title availableForSale selectedOptions { name value } price { amount currencyCode } } }
       id handle title description
       options { name optionValues { name firstSelectableVariant { id availableForSale } } }
       selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
