@@ -3,6 +3,7 @@ export interface Brand {
   accent: string;
   returnOrigins: string[];
   defaultReturn: string;
+  cookieDomain?: string;
 }
 
 const ecombio: Brand = {
@@ -15,7 +16,7 @@ const ecombio: Brand = {
 const hosts: Record<string, Brand> = {
   "localhost:8788": { ...ecombio, defaultReturn: "http://localhost:3000/internal" },
   "auth-dev.ecombiology.workers.dev": ecombio,
-  "auth.ecombio.com": ecombio,
+  "staff.ecombio.com": { ...ecombio, cookieDomain: ".ecombio.com" },
 };
 
 export function brandFor(host: string): Brand | undefined {

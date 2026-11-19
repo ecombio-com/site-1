@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
 import { baseOptions } from "./options";
+import { brandFor } from "./brands";
 import * as schema from "./db/schema";
 
 export interface Env {
@@ -10,9 +11,11 @@ export interface Env {
   ALLOW_SIGNUP?: string;
 }
 
-export function createAuth(env: Env) {
+export function createAuth(env: Env, host?: string) {
+  const cookieDomain = host ? brandFor(host)?.cookieDomain : undefined;
   return betterAuth({
     ...baseOptions,
+    advanced: { ...baseOptions.advanced, ...(cookieDomain ? { crossSubDomainCookies: { enabled: true, domain: cookieDomain } } : {}) },
     emailAndPassword: { ...baseOptions.emailAndPassword, disableSignUp: env.ALLOW_SIGNUP !== "true" },
     secret: env.BETTER_AUTH_SECRET,
     database: drizzleAdapter(drizzle(env.DB, { schema }), { provider: "sqlite" }),

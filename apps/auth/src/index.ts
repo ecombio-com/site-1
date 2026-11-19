@@ -16,6 +16,6 @@ app.get("/login", (c) => {
   return c.html(loginPage(brand, safeReturn(brand, c.req.query("next"))));
 });
 
-app.all("/api/auth/*", (c) => createAuth(c.env).handler(c.req.raw));
+app.all("/api/auth/*", (c) => createAuth(c.env, new URL(c.req.url).host).handler(c.req.raw));
 
 export default app;
