@@ -7,9 +7,5 @@ node_modules
 dist
 build
 .react-router
-
-.shopify
-.cache
-
 .shopify
 .cache
