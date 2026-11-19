@@ -10,6 +10,7 @@ export const baseOptions = {
   emailAndPassword: { enabled: true, disableSignUp: true },
   plugins: [admin()],
   advanced: {
+    useSecureCookies: true,
     ipAddress: { ipAddressHeaders: ["cf-connecting-ip"] },
   },
 } satisfies BetterAuthOptions;
