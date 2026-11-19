@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "auth-dev",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "auth-dev",
+      "database_id": "6078bb0b-5c06-4c14-8cb1-a330403b7278",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
