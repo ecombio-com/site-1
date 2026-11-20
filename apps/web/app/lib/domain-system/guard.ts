@@ -33,7 +33,7 @@ export function guardRequest(request: Request): GuardResult {
     return {ok: true, resolved};
   }
 
-  const decision = decideRoute(resolved.domain, toRoutePath(url.pathname));
+  const decision = decideRoute(resolved.domain, stripLocale(toRoutePath(url.pathname)));
   switch (decision.action) {
     case 'render':
       return {ok: true, resolved};
@@ -55,4 +55,11 @@ function blocked(): Response {
     status: 404,
     headers: {'X-Domain-Guard': 'blocked', 'X-Robots-Tag': 'noindex'},
   });
+}
+
+
+/** /en-us -> /, /en-us/products/x -> /products/x (locale prefix is not a route). */
+const LOCALE_PREFIX = /^\/[a-z]{2}-[a-z]{2}(?=\/|$)/i;
+export function stripLocale(path: string): string {
+  return path.replace(LOCALE_PREFIX, '') || '/';
 }

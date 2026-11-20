@@ -27,6 +27,11 @@ export const DOMAIN_REGISTRY: Record<string, DomainPackageKey> = {
   'skaterbio.com': 'aliasB',
   'alias-c.com': 'aliasC',
 
+  // Alias test hosts on Production: full storefront, noindex via fallback package.
+  'hydrogen-test.ecombio.com': 'fallback',
+  'hydrogen-test.bicyclebio.com': 'fallback',
+  'hydrogen-test.skaterbio.com': 'fallback',
+
   // Staging / preview hosts reuse the noindex fallback package.
   'staging.ecombio.com': 'fallback',
 };
@@ -110,3 +115,4 @@ function build(
 function logUnknownHost(host: string): void {
   console.warn(`[domain-registry] unknown host "${host}"`);
 }
+
