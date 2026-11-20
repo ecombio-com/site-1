@@ -5,6 +5,10 @@ permissions:
   contents: read
   deployments: write
 
+concurrency:
+  group: oxygen-1000185863-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy to Oxygen
@@ -19,19 +23,6 @@ jobs:
           node-version: "lts/*"
           check-latest: true
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: Setup pnpm
         run: npm install -g pnpm@12.14.0
 
@@ -39,6 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build and Publish to Oxygen
+        working-directory: apps/web
         run: pnpm exec shopify hydrogen deploy
         env:
           SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000185863 }}
