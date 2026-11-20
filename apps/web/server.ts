@@ -1,6 +1,8 @@
 import * as serverBuild from 'virtual:react-router/server-build';
 import {createRequestHandler, storefrontRedirect} from '@shopify/hydrogen';
 import {createHydrogenRouterContext} from '~/lib/context';
+import {guardRequest} from '~/lib/domain-system/guard';
+import {shouldNoindex} from '~/lib/domain-system/seo-packages';
 
 /**
  * Export a fetch handler in module format.
@@ -12,6 +14,9 @@ export default {
     executionContext: ExecutionContext,
   ): Promise<Response> {
     try {
+      const guard = guardRequest(request);
+      if (!guard.ok) return guard.response;
+
       const hydrogenContext = await createHydrogenRouterContext(
         request,
         env,
@@ -29,6 +34,7 @@ export default {
       });
 
       const response = await handleRequest(request);
+      if (shouldNoindex(guard.resolved.seo)) response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
       if (hydrogenContext.session.isPending) {
         response.headers.set(
