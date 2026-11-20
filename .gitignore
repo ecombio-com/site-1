@@ -10,3 +10,17 @@ build
 .shopify
 .cache
 .dev.vars*
+node_modules/
+.turbo/
+dist/
+.react-router/
+.wrangler/
+.sanity/
+.shopify/
+.dev.vars
+.env
+.env.*
+*.bak
+backups/
+search-baseline/
+*.tsbuildinfo
